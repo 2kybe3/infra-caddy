@@ -26,7 +26,7 @@ in {
         (MK-PROXY "10.0.4.12:3000")
         + ''
           handle_path / {
-            redir https://git.kybe.xyz/kybe 302
+            redir https://git.kybe.xyz/2kybe3 302
           }
         '';
       "status.kybe.xyz".extraConfig = MK-PROXY "http://10.0.4.8:3001";
