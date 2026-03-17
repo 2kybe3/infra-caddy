@@ -21,10 +21,7 @@
     };
 
     globalConfig = builtins.readFile ./config/global.txt;
-    logFormat = lib.mkForce ''
-      level INFO
-      exclude admin.api
-    '';
+    logFormat = lib.mkForce "level ERROR";
     environmentFile = config.sops.secrets.caddy.path;
   };
 }
