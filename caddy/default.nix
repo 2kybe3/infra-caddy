@@ -10,7 +10,7 @@
     format = "binary";
   };
   networking.firewall = {
-    allowedTCPPorts = [22 80 443];
+    allowedTCPPorts = [22 80 443 2019];
     allowedUDPPorts = [443];
   };
   services.caddy = {
