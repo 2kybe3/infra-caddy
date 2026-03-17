@@ -6,6 +6,9 @@
   }: ''
     encode
     import cloudflare-only
+    log {
+      level INFO
+    }
     reverse_proxy ${ip} {
       header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
       ${proxy_extra}
