@@ -7,7 +7,6 @@ let
   '';
   HTTPS-INSECURE = ''
     transport http {
-      tls
       tls_insecure_skip_verify
     }
   '';
