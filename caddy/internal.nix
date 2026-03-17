@@ -24,7 +24,7 @@ in {
 
       # taken from public.nix
       "git.kybe.xyz".extraConfig =
-        (MK-PROXY "10.0.4.12:3000")
+        (MK-PROXY "10.0.4.12:3000" "")
         + ''
           handle_path / {
             redir https://git.kybe.xyz/kybe 302
