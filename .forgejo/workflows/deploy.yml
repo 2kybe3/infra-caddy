@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: deploy-public
         run: |
-          curl -sS http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy
+          curl -fsS http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy
     
   deploy-internal:
     runs-on: self-hosted
@@ -20,4 +20,4 @@ jobs:
     steps:
       - name: deploy-internal
         run: |
-          curl -sS http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy
+          curl -fsS http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy
