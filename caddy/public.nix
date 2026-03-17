@@ -3,20 +3,44 @@ let
   CF-ONLY = "import cloudflare-only";
   MK-PROXY = cf: ip: ''
     encode
-    ${if cf then CF-ONLY else ""}
+    ${
+      if cf
+      then CF-ONLY
+      else ""
+    }
     reverse_proxy ${ip} {
       ${CF-HEADER}
     }
   '';
 in {
   services.caddy = {
-    extraConfig = builtins.readFile ./config/public.txt;
+    # provides cloudflare-only
+    extraConfig = builtins.readFile ./config/cf-only.txt;
+
     virtualHosts = {
       "kybe.xyz" = {
-        serverAliases = [ "www.kybe.xyz" ];
+        serverAliases = ["www.kybe.xyz"];
         extraConfig = builtins.readFile ./config/kybe.xyz;
       };
+      "autodiscover.kybe.xyz" = {
+        serverAliases = ["autoconfig.kybe.xyz"];
+        extraConfig = MK-PROXY true "10.0.4.3:80";
+      };
+      "git.kybe.xyz".extraConfig =
+        (MK-PROXY true "10.0.4.12:3000")
+        + ''
+          handle_path / {
+            redir https://git.kybe.xyz/kybe 302
+          }
+        '';
       "rhp.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.11:8080";
+      "matrix.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.6:6167";
+      "status.kybe.xyz".extraConfig = MK-PROXY true "http://10.0.4.8:3001";
+      "i.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.16:80";
+      "gotify.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.19:8080";
+      "mastodon.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.20:80";
+      "reg.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.10:5000";
+      "uma.kybe.xyz".extraConfig = MK-PROXY true "10.0.4.15:3000";
     };
   };
 }
