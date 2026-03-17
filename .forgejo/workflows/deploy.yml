@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-public:
+    runs-on: self-hosted
+
+    steps:
+      - name: deploy-public
+        run: |
+          curl http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy
+    
+  deploy-internal:
+    runs-on: self-hosted
+
+    steps:
+      - name: deploy-internal
+        run: |
+          curl http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy
+
