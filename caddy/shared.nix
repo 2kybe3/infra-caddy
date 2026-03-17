@@ -9,7 +9,7 @@
   };
   "autodiscover.kybe.xyz" = {ip = "10.0.4.3:80";};
   "autoconfig.kybe.xyz" = {ip = "10.0.4.3:80";};
-  "status.kybe.xyz" = {ip = "10.0.4.8:3001";};
+  "status.kybe.xyz" = {ip = "10.0.4.8:80";};
   "gotify.kybe.xyz" = {ip = "10.0.4.19:8080";};
   "mastodon.kybe.xyz" = {ip = "10.0.4.20:80";};
   "matrix.kybe.xyz" = {ip = "10.0.4.6:6167";};
