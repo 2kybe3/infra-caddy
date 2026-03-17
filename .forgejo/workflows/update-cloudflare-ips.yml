@@ -1,0 +1,32 @@
+name: Update Cloudflare IPs
+
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+      timezone: Europe/Berlin
+  workflow_dispatch:
+
+jobs:
+  update-ips:
+    runs-on: docker
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: https://github.com/cachix/install-nix-action@8aa03977d8d733052d78f4e008a241fd1dbf36b3 # v31.10.6
+
+      - name: Generate assets/cloudflare/ips.txt
+        run: |
+          mkdir -vp assets/cloudflare
+          nix run .#cloudflare-ips > assets/cloudflare/ips.txt
+
+      - name: Commit and push if updated
+        run: |
+          git config user.name "cloudflare-ips[bot]"
+          git config user.email "noreply@noreply.noreply"
+          if ! git diff --quiet assets/cloudflare/ips.txt; then
+            git add assets/cloudflare/ips.txt
+            git commit -m "cloudflare-ips: update"
+            git push
+          else
+            echo "No changes to commit."
+          fi
