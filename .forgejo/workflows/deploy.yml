@@ -12,11 +12,13 @@ jobs:
     steps:
       - name: deploy-public
         run: |
-          response=$(curl -fsS http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy || true)
-          echo "$response"
+          http_code=$(curl -sS -o response.txt -w "%{http_code}" \
+            http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy)
 
-          if [ $? -ne 0 ]; then
-            echo "Webhook failed"
+          cat response.txt
+
+          if [ "$http_code" = "500" ]; then
+            echo "Webhook returned 500"
             exit 1
           fi
     
@@ -26,10 +28,12 @@ jobs:
     steps:
       - name: deploy-internal
         run: |
-          response=$(curl -fsS http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy || true)
-          echo "$response"
+          http_code=$(curl -sS -o response.txt -w "%{http_code}" \
+            http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy)
 
-          if [ $? -ne 0 ]; then
-            echo "Webhook failed"
+          cat response.txt
+
+          if [ "$http_code" = "500" ]; then
+            echo "Webhook returned 500"
             exit 1
           fi
