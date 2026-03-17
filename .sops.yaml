@@ -1,0 +1,7 @@
+keys:
+  - &caddy age1fa39w3jqsc5psxx7d3w7lguf0l6glqf3v70ytu92ufe3qy8x04sqgd2d4t
+creation_rules:
+  - path_regex: secrets/caddy.env.bin$
+    key_groups:
+      - age:
+        - *caddy

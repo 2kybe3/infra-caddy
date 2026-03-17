@@ -1,0 +1,36 @@
+frss.kybe.xyz {
+    reverse_proxy 10.0.4.18:8080
+}
+reg.kybe.xyz {
+    reverse_proxy 10.0.4.10:5000
+}
+ppl.kybe.xyz {
+    reverse_proxy 10.0.5.5:8000
+}
+translate.kybe.xyz {
+    reverse_proxy 10.0.4.13:5000
+}
+syncthing.kybe.xyz {
+    reverse_proxy 10.0.5.6:8384 {
+        transport http {
+                tls
+                tls_insecure_skip_verify
+        }
+    }
+}
+mailadmin.kybe.xyz {
+	reverse_proxy 10.0.4.3
+}
+search.kybe.xyz {
+	reverse_proxy 10.0.5.7:8080
+}
+proxmox.kybe.xyz {
+	reverse_proxy 10.0.5.1:8006 {
+		transport http {
+			tls_insecure_skip_verify	
+		}
+	}
+}
+opn.kybe.xyz {
+	reverse_proxy 10.0.4.1:8004
+}

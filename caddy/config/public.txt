@@ -1,0 +1,143 @@
+(cloudflare-only) {
+	@blocked not remote_ip 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32 10.0.4.0/23 10.0.6.0/24
+	handle @blocked {
+		redir https://www.youtube.com/watch?v=dQw4w9WgXcQ 302
+	}
+}
+
+kybe.xyz www.kybe.xyz {
+	log
+	encode
+
+	root * /srv/website
+
+	import cloudflare-only
+
+	handle /.well-known/matrix/server {
+		respond `{"m.server": "matrix.kybe.xyz:443"}`
+	}
+
+	handle /.well-known/matrix/client {
+		respond `{"m.homeserver":{"base_url":"https://matrix.kybe.xyz"},"org.matrix.msc3575.proxy":{"url":"https://matrix.kybe.xyz"}}`
+	}
+
+	handle /.well-known/discord {
+		respond "dh=90d4f73eddd13e33d5acc6cbd60b619be99dec03" 200
+	}
+
+	handle /dc {
+		redir https://discord.gg/755HZzqk8C 301
+	}
+
+        handle /static {
+		try_files {path} {path}/
+		file_server
+	}
+
+	handle /BingSiteAuth.xml {
+		try_files {path} {path}/
+		file_server
+	}
+
+	@cf {
+		header CF-Connecting-IP *
+	}
+
+	handle @cf {
+		reverse_proxy 10.0.4.4:3000 {
+			header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+		}
+	}
+
+	handle {
+		reverse_proxy 10.0.4.4:3000
+	}
+}
+
+rhp.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.11:8080 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+git.kybe.xyz {
+	encode
+	import cloudflare-only
+
+	handle_path / {
+		redir https://git.kybe.xyz/kybe 302
+	}
+
+	reverse_proxy 10.0.4.12:3000 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+# Matrix
+matrix.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.6:6167 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+# Uptime Kuma
+status.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy http://10.0.4.8:3001 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+# Zipline
+media.kybe.xyz i.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.16:80 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+# Notifications
+gotify.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.19:8080 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+mastodon.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.20:80 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+reg.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.10:5000 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+# Umami
+uma.kybe.xyz {
+	encode
+	import cloudflare-only
+	reverse_proxy 10.0.4.15:3000 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+autodiscover.kybe.xyz,
+autoconfig.kybe.xyz {
+	encode
+	reverse_proxy 10.0.4.3:80
+}
