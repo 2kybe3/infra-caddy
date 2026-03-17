@@ -1,17 +1,25 @@
 let
-  MK-PROXY = ip: ''
+  MK-PROXY = ip: extra: ''
     encode
-    reverse_proxy ${ip}
+    reverse_proxy ${ip} {
+      ${extra}
+    }
+  '';
+  HTTPS-INSECURE = ''
+    transport http {
+      tls
+      tls_insecure_skip_verify
+    }
   '';
 in {
   services.caddy = {
     virtualHosts = {
-      "frss.kybe.xyz".extraConfig = MK-PROXY " 10.0.4.18:8080";
-      "ppl.kybe.xyz".extraConfig = MK-PROXY "10.0.5.5:8000";
+      "proxmox.kybe.xyz".extraConfig = MK-PROXY "10.0.5.1:8006" HTTPS-INSECURE;
       "translate.kybe.xyz".extraConfig = MK-PROXY "10.0.4.13:5000";
-      "mailadmin.kybe.xyz".extraConfig = MK-PROXY "10.0.4.3";
       "search.kybe.xyz".extraConfig = MK-PROXY "10.0.5.7:8080";
-      "proxmox.kybe.xyz".extraConfig = MK-PROXY "http://10.0.5.1:8006";
+      "frss.kybe.xyz".extraConfig = MK-PROXY " 10.0.4.18:8080";
+      "mailadmin.kybe.xyz".extraConfig = MK-PROXY "10.0.4.3";
+      "ppl.kybe.xyz".extraConfig = MK-PROXY "10.0.5.5:8000";
       "opn.kybe.xyz".extraConfig = MK-PROXY "10.0.4.1:8004";
 
       # taken from public.nix
