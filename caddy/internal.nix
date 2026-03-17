@@ -1,8 +1,9 @@
-let
+{lib, ...}: let
   MK-PROXY = ip: extra: ''
     encode
+
     reverse_proxy ${ip} {
-      ${extra}
+      ${lib.optionalString (extra != null) extra}
     }
   '';
   HTTPS-INSECURE = ''
