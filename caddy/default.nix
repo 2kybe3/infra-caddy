@@ -21,7 +21,10 @@
     };
 
     globalConfig = builtins.readFile ./config/global.txt;
-    logFormat = lib.mkForce "level INFO";
+    logFormat = lib.mkForce ''
+      level INFO
+      exclude admin.api
+    '';
     environmentFile = config.sops.secrets.caddy.path;
   };
 }
