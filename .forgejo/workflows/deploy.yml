@@ -12,7 +12,13 @@ jobs:
     steps:
       - name: deploy-public
         run: |
-          curl -fsS http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy
+          response=$(curl -fsS http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy || true)
+          echo "$response"
+
+          if [ $? -ne 0 ]; then
+            echo "Webhook failed"
+            exit 1
+          fi
     
   deploy-internal:
     runs-on: self-hosted
@@ -20,4 +26,10 @@ jobs:
     steps:
       - name: deploy-internal
         run: |
-          curl -fsS http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy
+          response=$(curl -fsS http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy || true)
+          echo "$response"
+
+          if [ $? -ne 0 ]; then
+            echo "Webhook failed"
+            exit 1
+          fi
