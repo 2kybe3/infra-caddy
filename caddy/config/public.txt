@@ -5,6 +5,12 @@
 	}
 }
 
+:2019 {
+    log {
+        output discard
+    }
+}
+
 kybe.xyz www.kybe.xyz {
 	log
 	encode
