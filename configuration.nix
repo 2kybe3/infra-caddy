@@ -1,5 +1,6 @@
 {
   imports = [
+    ./webhook.nix
     ./proxmox.nix
     ./sops.nix
     ./caddy

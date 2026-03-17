@@ -1,11 +1,17 @@
-{lib,self,pkgs,config,...}: {
+{
+  lib,
+  self,
+  pkgs,
+  config,
+  ...
+}: {
   sops.secrets.caddy = {
     sopsFile = "${self}/secrets/caddy.env.bin";
     format = "binary";
   };
   networking.firewall = {
-    allowedTCPPorts = [ 22 80 443 ];
-    allowedUDPPorts = [ 443 ];
+    allowedTCPPorts = [22 80 443];
+    allowedUDPPorts = [443];
   };
   services.caddy = {
     enable = true;

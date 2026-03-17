@@ -18,22 +18,23 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
 
-    makeHost = module: nixpkgs.lib.nixosSystem {
-      inherit system pkgs;
+    makeHost = module:
+      nixpkgs.lib.nixosSystem {
+        inherit system pkgs;
 
-      specialArgs = {
-        inherit self system;
+        specialArgs = {
+          inherit self system;
+        };
+
+        modules = [
+          ./configuration.nix
+          module
+          sops-nix.nixosModules.sops
+        ];
       };
-
-      modules = [
-        ./configuration.nix
-        module
-        sops-nix.nixosModules.sops
-      ];
-    };
   in {
     nixosConfigurations = {
-      "caddy-public" = makeHost ./caddy/public.nix; 
+      "caddy-public" = makeHost ./caddy/public.nix;
       "caddy-internal" = makeHost ./caddy/internal.nix;
     };
     formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
