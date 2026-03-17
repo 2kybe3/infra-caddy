@@ -16,7 +16,7 @@ in {
       "proxmox.kybe.xyz".extraConfig = MK-PROXY "10.0.5.1:8006" HTTPS-INSECURE;
       "translate.kybe.xyz".extraConfig = MK-PROXY "10.0.4.13:5000";
       "search.kybe.xyz".extraConfig = MK-PROXY "10.0.5.7:8080";
-      "frss.kybe.xyz".extraConfig = MK-PROXY " 10.0.4.18:8080";
+      "frss.kybe.xyz".extraConfig = MK-PROXY "10.0.4.18:8080";
       "mailadmin.kybe.xyz".extraConfig = MK-PROXY "10.0.4.3";
       "ppl.kybe.xyz".extraConfig = MK-PROXY "10.0.5.5:8000";
       "opn.kybe.xyz".extraConfig = MK-PROXY "10.0.4.1:8004";
