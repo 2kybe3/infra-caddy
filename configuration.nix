@@ -1,3 +1,4 @@
+{pkgs,...}:
 {
   imports = [
     ./webhook.nix
@@ -5,6 +6,12 @@
     ./sops.nix
     ./caddy
   ];
+
+  environment.systemPackages = [
+    pkgs.vim
+  ];
+
+
   services.openssh = {
     enable = true;
     openFirewall = true;
