@@ -7,12 +7,13 @@
       }
     '';
   };
+  "mastodon.kybe.xyz" = {ip = "http://10.0.4.20";};
   "autodiscover.kybe.xyz" = {ip = "10.0.4.3:80";};
+  "gotify.kybe.xyz" = {ip = "http://10.0.4.19";};
   "autoconfig.kybe.xyz" = {ip = "10.0.4.3:80";};
   "status.kybe.xyz" = {ip = "http://10.0.4.8";};
-  "gotify.kybe.xyz" = {ip = "http://10.0.4.19";};
-  "mastodon.kybe.xyz" = {ip = "http://10.0.4.20";};
   "matrix.kybe.xyz" = {ip = "10.0.4.6:6167";};
+  "attic.kybe.xyz" = {ip = "10.0.5.3:8080";};
   "rhp.kybe.xyz" = {ip = "10.0.4.11:8080";};
   "reg.kybe.xyz" = {ip = "10.0.4.10:5000";}; # maybe make this private?
   "uma.kybe.xyz" = {ip = "10.0.4.15:3000";};

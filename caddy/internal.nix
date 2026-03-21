@@ -26,7 +26,6 @@
     "mailadmin.kybe.xyz" = {ip = "10.0.4.3:80";};
     "search.kybe.xyz" = {ip = "10.0.5.7:8080";};
     "frss.kybe.xyz" = {ip = "10.0.4.18:8080";};
-    "attic.kybe.xyz" = {ip = "10.0.5.3:8080";};
     "ppl.kybe.xyz" = {ip = "10.0.5.5:8000";};
     "opn.kybe.xyz" = {ip = "10.0.4.1:8004";};
   };
