@@ -1,39 +1,88 @@
 name: Deploy
-
 on:
   push:
     branches:
       - main
 
+env:
+  REPO_URL: https://git.kybe.xyz/2kybe3/infra-caddy.git
+
+  BUILDER_USERNAME: ci
+  BUILDER_IP: nix-builder.internal.kybe.xyz
+
+  TARGET_USERNAME_INTERNAL: root
+  TARGET_HOSTNAME_INTERNAL: caddy-internal
+  TARGET_IP_INTERNAL: caddy-internal.internal.kybe.xyz
+
+  TARGET_USERNAME_PUBLIC: root
+  TARGET_HOSTNAME_PUBLIC: caddy-public
+  TARGET_IP_PUBLIC: caddy-public.internal.kybe.xyz
+
+
 jobs:
   deploy-public:
     runs-on: self-hosted
+    container:
+      image: ghcr.io/catthehacker/ubuntu:act-latest
 
     steps:
-      - name: deploy-public
+      - name: Set up SSH
         run: |
-          http_code=$(curl -sS -o response.txt -w "%{http_code}" \
-            http://caddy-public.internal.kybe.xyz:9999/hooks/redeploy)
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/key
+          chmod 600 ~/.ssh/key
+          ssh-keyscan -H $BUILDER_IP >> ~/.ssh/known_hosts
 
-          cat response.txt
+      - name: Deploy
+        run: |
+          jq -n \
+            --arg repo "$REPO_URL" \
+            --arg host "$TARGET_HOSTNAME_PUBLIC" \
+            --arg ip "$TARGET_IP_PUBLIC" \
+            --arg user "$TARGET_USERNAME_PUBLIC" \
+            '{repo: $repo, host: $host, ip: $ip, user: $user}' \
+            > public.json
 
-          if [ "$http_code" = "500" ]; then
-            echo "Webhook returned 500"
-            exit 1
-          fi
-    
-  deploy-internal:
+          scp -i ~/.ssh/key public.json $BUILDER_USERNAME@$BUILDER_IP:/tmp/public.json
+
+          ssh -i ~/.ssh/key $BUILDER_USERNAME@$BUILDER_IP "build /tmp/public.json"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          ssh -i ~/.ssh/key $BUILDER_USERNAME@$BUILDER_IP "rm /tmp/public.json"
+          rm -rf ~/.ssh
+
+  deploy-private:
     runs-on: self-hosted
+    container:
+      image: ghcr.io/catthehacker/ubuntu:act-latest
 
     steps:
-      - name: deploy-internal
+      - name: Set up SSH
         run: |
-          http_code=$(curl -sS -o response.txt -w "%{http_code}" \
-            http://caddy-internal.internal.kybe.xyz:9999/hooks/redeploy)
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/key
+          chmod 600 ~/.ssh/key
+          ssh-keyscan -H $BUILDER_IP >> ~/.ssh/known_hosts
 
-          cat response.txt
+      - name: Deploy
+        run: |
+          jq -n \
+            --arg repo "$REPO_URL" \
+            --arg host "$TARGET_HOSTNAME_INTERNAL" \
+            --arg ip "$TARGET_IP_INTERNAL" \
+            --arg user "$TARGET_USERNAME_INTERNAL" \
+            '{repo: $repo, host: $host, ip: $ip, user: $user}' \
+            > internal.json
 
-          if [ "$http_code" = "500" ]; then
-            echo "Webhook returned 500"
-            exit 1
-          fi
+          scp -i ~/.ssh/key internal.json $BUILDER_USERNAME@$BUILDER_IP:/tmp/internal.json
+
+          ssh -i ~/.ssh/key $BUILDER_USERNAME@$BUILDER_IP "build /tmp/internal.json"
+
+
+      - name: Cleanup
+        if: always()
+        run: |
+          ssh -i ~/.ssh/key $BUILDER_USERNAME@$BUILDER_IP "rm /tmp/internal.json"
+          rm -rf ~/.ssh
