@@ -1,5 +1,4 @@
-{pkgs,...}:
-{
+{pkgs, ...}: {
   imports = [
     ./webhook.nix
     ./proxmox.nix
@@ -10,7 +9,6 @@
   environment.systemPackages = [
     pkgs.vim
   ];
-
 
   services.openssh = {
     enable = true;

@@ -5,6 +5,10 @@
     proxy_extra ? "",
   }: ''
     encode
+    tls {
+      dns cloudflare {env.CF_API_TOKEN}
+      resolvers 1.1.1.1
+    }
     import cloudflare-only
     log {
       level INFO

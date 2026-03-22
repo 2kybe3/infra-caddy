@@ -3,4 +3,3 @@ metrics {
     observe_catchall_hosts
 }
 admin :2019
-acme_dns cloudflare {env.CF_API_TOKEN}
