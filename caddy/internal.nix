@@ -1,7 +1,8 @@
-{lib, ...}: let
+{lib, kystash-docs, ...}: let
   mkProxy = {
-    ip,
+    ip ? null,
     extra ? "",
+    root_path ? null,
     proxy_extra ? "",
   }: ''
     encode
@@ -9,9 +10,17 @@
       dns cloudflare {env.CF_API_TOKEN}
       resolvers 1.1.1.1
     }
+
+    ${if ip != null then ''
     reverse_proxy ${ip} {
       ${proxy_extra}
     }
+    '' else ""}
+
+    ${if root_path != null then ''
+    root * ${root_path}
+    file_server
+    '' else ""}
     ${extra}
   '';
 
@@ -36,5 +45,5 @@
 in {
   services.caddy.virtualHosts = lib.mapAttrs (_: cfg: {
     extraConfig = mkProxy cfg;
-  }) ((import ./shared.nix) // internal);
+  }) ((import ./shared.nix {inherit kystash-docs;}) // internal);
 }

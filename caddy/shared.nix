@@ -1,4 +1,8 @@
+{kystash-docs}:
 {
+  "kystash.kybe.xyz" = {
+    root_path = kystash-docs;
+  };
   "git.kybe.xyz" = {
     ip = "10.0.4.12:3000";
     extra = ''
