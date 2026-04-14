@@ -58,11 +58,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1776032061,
-        "narHash": "sha256-L4s11qiYhWAsrnPE0p0ZHpFxyvSel12wpPnRKbB4uW8=",
+        "lastModified": 1776143112,
+        "narHash": "sha256-YTMkSxov1a3UA4yv+Nc/H4UyZraoV8hcycftF8q1SVI=",
         "ref": "refs/heads/main",
-        "rev": "4d144ff83133fcbbd5dc56845155c2755d8064fb",
-        "revCount": 73,
+        "rev": "2adfede399093c8e5be59d37a96ca203a4395733",
+        "revCount": 74,
         "type": "git",
         "url": "https://git.kybe.xyz/2kybe3/kystash"
       },
