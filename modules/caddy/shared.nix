@@ -1,5 +1,12 @@
 { assets, ... }:
 {
+  "2a01:4f9:6b:1f05::b00b" = {
+    extra = ''
+      handle_path / {
+        redir https://kybe.xyz/302
+      }
+    '';
+  };
   "git.kybe.xyz" = {
     ip = "10.0.4.12:3000";
     extra = ''
