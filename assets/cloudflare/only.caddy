@@ -1,5 +1,5 @@
 (cloudflare-only) {
-	@blocked not remote_ip @@cf_ips@@ 10.0.4.0/23 10.0.6.0/24
+	@blocked not remote_ip 10.0.4.0/23 10.0.6.0/24 @@cf_ips@@
     handle @blocked {
 		redir https://www.youtube.com/watch?v=dQw4w9WgXcQ 302
 	}
