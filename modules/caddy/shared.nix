@@ -11,6 +11,9 @@
   "metrics.kybe.xyz" = {
     ip = "http://nix-main.kybe.xyz:2342";
   };
+  "webhooks.kybe.xyz" = {
+    ip = "http://nix-main.kybe.xyz:3000";
+  };
   "mastodon.kybe.xyz" = {
     ip = "http://10.0.4.20";
   };
