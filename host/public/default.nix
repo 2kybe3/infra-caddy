@@ -11,6 +11,7 @@ let
       extra ? "",
       proxy_extra ? "",
       root_path ? null,
+      cloudflare-only ? true,
       ...
     }:
     ''
@@ -19,7 +20,7 @@ let
         dns cloudflare {env.CF_API_TOKEN}
         resolvers 1.1.1.1
       }
-      import cloudflare-only
+      ${if cloudflare-only then "import cloudflare-only" else ""}
 
       ${
         if ip != null then
@@ -45,7 +46,16 @@ let
       ${extra}
     '';
 
+  public = {
+    "http://[2a01:4f9:6b:1f05::b00b]" = {
+      extra = "respond \"hi there!\"";
+      cloudflare-only = false;
+    };
+  };
+
   shared = import "${self}/modules/caddy/shared.nix" { inherit assets; };
+
+  hosts = lib.filterAttrs (k: v: lib.isAttrs v) (shared // public);
 in
 {
   services.caddy = {
@@ -56,6 +66,6 @@ in
 
     virtualHosts = lib.mapAttrs (_domain: cfg: {
       extraConfig = mkProxy cfg;
-    }) shared;
+    }) hosts;
   };
 }
