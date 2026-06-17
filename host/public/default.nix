@@ -48,8 +48,8 @@ let
 
   public = {
     "http://[2a01:4f9:6b:1f05::b00b]" = {
-      ip = "https://tilley.lol";
       cloudflare-only = false;
+      extra = "respond \"hi\"";
     };
   };
 
