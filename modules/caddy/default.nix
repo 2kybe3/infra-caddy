@@ -26,6 +26,7 @@
       hash = "sha256-LEpsjwy0CYx04cg42CfG6/sFv86kHmhezUG6yGedYcA=";
     };
 
+    extraConfig = builtins.readFile "${assets}/common_headers.caddy";
     globalConfig = builtins.readFile "${assets}/global.caddy";
     logFormat = lib.mkForce "level ERROR";
     environmentFile = config.sops.secrets.caddy.path;

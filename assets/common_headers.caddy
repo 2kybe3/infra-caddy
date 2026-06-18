@@ -1,0 +1,5 @@
+(common_headers) {
+    header {
+        server "not caddy :3"
+    }
+}

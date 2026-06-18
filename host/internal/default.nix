@@ -19,6 +19,8 @@ let
         resolvers 1.1.1.1
       }
 
+      import common_headers
+
       ${
         if ip != null then
           ''

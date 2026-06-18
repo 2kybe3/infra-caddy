@@ -20,6 +20,7 @@ let
         dns cloudflare {env.CF_API_TOKEN}
         resolvers 1.1.1.1
       }
+      import common_headers
       ${if cloudflare-only then "import cloudflare-only" else ""}
 
       ${

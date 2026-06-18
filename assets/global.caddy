@@ -2,4 +2,5 @@ metrics {
     per_host
     observe_catchall_hosts
 }
+
 admin :2019
