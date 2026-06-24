@@ -1,6 +1,4 @@
 {
-  description = "caddy-public";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -26,16 +24,16 @@
     }:
     let
       system = "x86_64-linux";
-      assets = "${self}/assets";
       pkgs = nixpkgs.legacyPackages.${system};
 
       makeHost =
         module:
         nixpkgs.lib.nixosSystem {
-          inherit system pkgs;
+          inherit pkgs;
 
           specialArgs = {
-            inherit self system assets;
+            inherit self system;
+            assets = "${self}/assets";
           };
 
           modules = [

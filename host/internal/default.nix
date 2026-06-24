@@ -1,7 +1,6 @@
 {
   lib,
   self,
-  assets,
   ...
 }:
 let
@@ -21,11 +20,15 @@ let
 
       import common_headers
 
+      ${extra}
+
       ${
         if ip != null then
           ''
-            reverse_proxy ${ip} {
-              ${proxy_extra}
+            handle {
+              reverse_proxy ${ip} {
+                ${proxy_extra}
+              }
             }
           ''
         else
@@ -41,7 +44,6 @@ let
         else
           ""
       }
-      ${extra}
     '';
 
   HTTPS-INSECURE = ''
@@ -75,7 +77,7 @@ let
     };
   };
 
-  shared = import "${self}/modules/caddy/shared.nix" { inherit assets; };
+  shared = import "${self}/modules/caddy/shared.nix";
 
   hosts = lib.filterAttrs (k: v: lib.isAttrs v) (shared // internal);
 in

@@ -1,4 +1,3 @@
-{ assets, ... }:
 {
   "git.kybe.xyz" = {
     ip = "10.0.4.12:3000";
@@ -46,6 +45,11 @@
   };
   "kybe.xyz" = {
     ip = "10.0.4.4:3000";
-    extra = builtins.readFile "${assets}/kybe.xyz";
+    extra = ''
+      handle_path /.well-known/matrix/* {
+        root ${../../assets/well-known/matrix}
+        file_server
+      }
+    '';
   };
 }

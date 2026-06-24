@@ -23,12 +23,16 @@ let
       import common_headers
       ${if cloudflare-only then "import cloudflare-only" else ""}
 
+      ${extra}
+
       ${
         if ip != null then
           ''
-            reverse_proxy ${ip} {
-              header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
-              ${proxy_extra}
+            handle {
+              reverse_proxy ${ip} {
+                header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+                ${proxy_extra}
+              }
             }
           ''
         else
@@ -44,7 +48,6 @@ let
         else
           ""
       }
-      ${extra}
     '';
 
   public = {
@@ -54,7 +57,7 @@ let
     };
   };
 
-  shared = import "${self}/modules/caddy/shared.nix" { inherit assets; };
+  shared = import "${self}/modules/caddy/shared.nix";
 
   hosts = lib.filterAttrs (k: v: lib.isAttrs v) (shared // public);
 in

@@ -11,6 +11,7 @@
     sopsFile = "${self}/secrets/caddy.env.bin";
     format = "binary";
   };
+
   networking.firewall = {
     allowedTCPPorts = [
       80
@@ -28,7 +29,8 @@
 
     extraConfig = builtins.readFile "${assets}/common_headers.caddy";
     globalConfig = builtins.readFile "${assets}/global.caddy";
-    logFormat = lib.mkForce "level ERROR";
+
+    logFormat = lib.mkForce "level WARN";
     environmentFile = config.sops.secrets.caddy.path;
   };
 }

@@ -3,13 +3,9 @@ handle /.well-known/matrix/server {
 }
 
 handle /.well-known/matrix/client {
-    respond `{"m.homeserver":{"base_url":"https://matrix.kybe.xyz"},"org.matrix.msc3575.proxy":{"url":"https://matrix.kybe.xyz"}}`
+    respond `{"m.homeserver":{"base_url":"https://matrix.kybe.xyz"}}`
 }
 
-handle /.well-known/discord {
-    respond "dh=90d4f73eddd13e33d5acc6cbd60b619be99dec03" 200
-}
+handle /.well-known/matrix/support {
 
-handle /dc {
-    redir https://discord.gg/755HZzqk8C 301
 }
