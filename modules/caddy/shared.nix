@@ -53,4 +53,9 @@
       }
     '';
   };
+  "www.kybe.xyz" = {
+    extra = ''
+      redir https://kybe.xyz{uri}
+    '';
+  };
 }
