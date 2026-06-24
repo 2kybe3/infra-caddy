@@ -48,6 +48,7 @@
     extra = ''
       handle_path /.well-known/matrix/* {
         root ${../../assets/well-known/matrix}
+        header Content-Type application
         file_server
       }
     '';

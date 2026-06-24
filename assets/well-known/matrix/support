@@ -1,0 +1,10 @@
+{
+    "contacts": [
+        {
+            "email_address": "kybe@kybe.xyz",
+            "matrix_id": "@kybe@kybe.xyz",
+            "role": "m.role.admin"
+        }
+    ],
+    "support_page": "https://kybe.xyz/ident.txt"
+}
