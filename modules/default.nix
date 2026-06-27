@@ -3,6 +3,7 @@
   imports = [
     ./proxmox.nix
     ./sops.nix
+    ./nix.nix
     ./caddy
   ];
 
