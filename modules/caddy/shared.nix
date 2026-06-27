@@ -46,6 +46,13 @@
   "kybe.xyz" = {
     ip = "10.0.4.4:3000";
     extra = ''
+      handle_path /robots.txt {
+        respond <<TXT
+          # just don't do smth anoying ok?
+          User-agent: *
+          Allow: /
+          TXT 200
+      }
       handle_path /.well-known/matrix/* {
         root ${../../assets/well-known/matrix}
         header Content-Type application
